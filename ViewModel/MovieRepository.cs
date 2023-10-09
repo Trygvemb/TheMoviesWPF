@@ -5,6 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using TheMoviesWPF.Model;
 using TheMoviesWPF.Model.Interfaces;
+using System.Data;
+using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Configuration.Json;
+using Microsoft.Extensions.Configuration;
 
 namespace TheMoviesWPF.ViewModel
 {
@@ -12,7 +16,11 @@ namespace TheMoviesWPF.ViewModel
     {
         public MovieRepository()
         {
-            
+            IConfigurationRoot config = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
+
+            string? ConnectionString = config.GetConnectionString("MyDBConnection");
+
+
         }
         public void Add(Movie entity)
         {
@@ -25,4 +33,4 @@ namespace TheMoviesWPF.ViewModel
         }
     }
 }
-}
+
