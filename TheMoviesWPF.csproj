@@ -8,18 +8,22 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="View\" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.1" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="7.0.0" />
+    <Page Include="App.xaml" />
   </ItemGroup>
 
   <ItemGroup>
     <None Update="appsettings.JSON">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="View\" />
   </ItemGroup>
 
 </Project>

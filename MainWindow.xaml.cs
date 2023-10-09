@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using TheMoviesWPF.ViewModel;
 
 namespace WpfApp3
 {
@@ -23,6 +24,7 @@ namespace WpfApp3
         public MainWindow()
         {
             InitializeComponent();
+            DataContext = new MovieRepository();
         }
     }
 }

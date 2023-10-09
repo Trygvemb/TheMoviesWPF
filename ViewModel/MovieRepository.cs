@@ -31,7 +31,7 @@ namespace TheMoviesWPF.ViewModel
             using (SqlConnection con = new SqlConnection(ConnectionString))
             {
                 con.Open();
-                SqlCommand cmd = new SqlCommand("INSERT INTO Movie(Title, Genre, Lenth)" +
+                SqlCommand cmd = new SqlCommand("INSERT INTO tm_Movies(Title, Genre, Length)" +
                                                 "VALUES(@Title, @Genre, @Lenth)" +
                                                 "SELECT @@IDENTITY", con);
                 cmd.Parameters.Add("@Titel", SqlDbType.NVarChar).Value = entity.Title;
