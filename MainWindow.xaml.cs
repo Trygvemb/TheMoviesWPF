@@ -14,7 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using TheMoviesWPF.ViewModel;
 
-namespace WpfApp3
+namespace TheMoviesWPF
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
