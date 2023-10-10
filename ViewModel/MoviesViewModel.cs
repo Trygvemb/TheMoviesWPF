@@ -14,7 +14,7 @@ namespace TheMoviesWPF.ViewModel
     {
         private readonly IMovieRepository _movieRepository;
 
-        public ObservableCollection<Movie> movies { get; set; } = new ObservableCollection<Movie>();
+
 
         public string Title { get; set; }
         public string Genre { get; set; }
@@ -30,14 +30,29 @@ namespace TheMoviesWPF.ViewModel
 
         public void AddMovie()
         {
-            var newMovie = new Movie(0, Title, Genre, Length);
+            var newMovie = new Movie(Title, Genre, Length);
 
             _movieRepository.Add(newMovie);
-            movies.Add(newMovie);
 
             Title = string.Empty;
             Genre = string.Empty;
             Length = 0;
         }
+
+        public string SetMovieOverview()
+        {
+            ObservableCollection<Movie> Movies = (ObservableCollection<Movie>)_movieRepository.GetAll();
+
+            string line = "";
+            
+            foreach (Movie movie in Movies)
+            {
+                line += $"{Title}, {Genre}, {Length}\n";
+            }
+
+
+            return line;
+        }
+
     }
 }

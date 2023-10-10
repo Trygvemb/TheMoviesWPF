@@ -21,10 +21,30 @@ namespace WpfApp3
     /// </summary>
     public partial class MainWindow : Window
     {
+        private MoviesViewModel moviesViewModel = new MoviesViewModel(new MovieRepository());
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = new MovieRepository();
+            DataContext = moviesViewModel;
+
+            SetMovieOverviewtb();
         }
+
+        private void AddMovie_Click(object sender, RoutedEventArgs e)
+        {
+            moviesViewModel.AddMovie();
+            Title.Text = "";
+            Genre.Text = "";
+            Length.Text = "";
+
+            
+        }
+
+        public void SetMovieOverviewtb()
+        {
+            moviesViewModel.SetMovieOverview();
+        }
+
+
     }
 }

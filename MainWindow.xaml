@@ -7,11 +7,16 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
+
         <StackPanel Margin="20">
-            <TextBox Text="{Binding Title}"  Margin="0 0 0 10"/>
-            <TextBox Text="{Binding Genre}"  Margin="0 0 0 10"/>
-            <TextBox Text="{Binding Length}"  Margin="0 0 0 10"/>
-            <Button Content="Add Movie" Command="{Binding AddMovieCommand}"/>
+            <TextBlock Height="100" Name="MovieOverview" Text=""/>
+            <Label Content="Input Movie Title"/>
+            <TextBox Name="Title" Text="{Binding Title}"  Margin="0 0 0 10"/>
+            <Label Content="Input Movie Genre"/>
+            <TextBox Name="Genre" Text="{Binding Genre}"  Margin="0 0 0 10"/>
+            <Label Content="Input Movie Length in Minutes"/>
+            <TextBox Name="Length" Text="{Binding Length}"  Margin="0 0 0 10"/>
+            <Button Content="Add Movie" Command="{Binding AddMovieCommand}" Click="AddMovie_Click"/>
         </StackPanel>
     </Grid>
 </Window>

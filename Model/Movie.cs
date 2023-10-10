@@ -13,9 +13,9 @@ namespace TheMoviesWPF.Model
         public string Genre { get; set; }
         public int Length { get; set; }
 
-        public Movie(int id, string title, string genre, int length)
+        public Movie(string title, string genre, int length)
         {
-            Id = id;
+            Id = 0;
             Title = title;
             Genre = genre;
             Length = length;
