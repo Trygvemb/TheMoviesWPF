@@ -9,7 +9,7 @@ namespace TheMoviesWPF.Model.Interfaces
     internal interface IGenericRepository<T> where T : class
     {
         IEnumerable<T> GetAll();
-
         void Add(T entity);
+
     }
 }

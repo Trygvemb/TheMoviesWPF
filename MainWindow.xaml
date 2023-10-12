@@ -5,18 +5,34 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TheMoviesWPF"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="MainWindow" Height="800" Width="450">
+    <Grid Background="Black">
+        <Grid Background="LightGray">
+            <StackPanel Orientation="Vertical">
 
-        <StackPanel Margin="20">
-            <TextBlock Height="100" Name="MovieOverview" Text=""/>
-            <Label Content="Input Movie Title"/>
-            <TextBox Name="Title" Text="{Binding Title}"  Margin="0 0 0 10"/>
-            <Label Content="Input Movie Genre"/>
-            <TextBox Name="Genre" Text="{Binding Genre}"  Margin="0 0 0 10"/>
-            <Label Content="Input Movie Length in Minutes"/>
-            <TextBox Name="Length" Text="{Binding Length}"  Margin="0 0 0 10"/>
-            <Button Content="Add Movie" Command="{Binding AddMovieCommand}" Click="AddMovie_Click"/>
-        </StackPanel>
+                <TextBlock Text="ADD NEW MOVIE" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center"/>
+                <Border BorderBrush="Black" BorderThickness="1" Margin="0,0,0,10"/>
+                <TextBox x:Name="tbTitle" Text="{Binding Title}" FontSize="15"  BorderThickness="1" VerticalAlignment="Center"></TextBox>
+                <TextBox x:Name="tbGenre" Text="{Binding Genre}" FontSize="15"  BorderThickness="1" VerticalAlignment="Center"></TextBox>
+                <TextBox x:Name="tbLength" Text="{Binding Length}" FontSize="15"  BorderThickness="1" VerticalAlignment="Center"></TextBox>
+                <DockPanel Height="50" Margin="10">
+                    <Button x:Name="btSave" DockPanel.Dock="Left" Background="Green" FontSize="20" Height="35" Width="100" Click="btSave_Click">ADD</Button>
+                    <Button x:Name="btCancel" DockPanel.Dock="Right" Background="Red" FontSize="20" Height="35" Width="100" HorizontalAlignment="Right" Click="btCancel_Click">CLEAR</Button>
+                    <Button x:Name="btDelete" Background="Yellow" FontSize="20" Height="35" Content="DELETE" DockPanel.Dock="Right" Width="100" Click="btDelete_Click"/>
+                </DockPanel>
+                <TextBlock Text="Movie Collection" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center"/>
+                <Border BorderBrush="Black" BorderThickness="1" Margin="0,0,0,5"/>
+                <ListView Background="LightGray" Name="lvMovies" ItemsSource="{Binding Movies}">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Title" Width="150" DisplayMemberBinding="{Binding Title}" />
+                            <GridViewColumn Header="Genre" Width="150" DisplayMemberBinding="{Binding Genre}" />
+                            <GridViewColumn Header="Length" Width="100" DisplayMemberBinding="{Binding Length}" />
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+
+            </StackPanel>
+        </Grid>
     </Grid>
 </Window>

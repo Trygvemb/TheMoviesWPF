@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,27 +25,28 @@ namespace TheMoviesWPF
         private MoviesViewModel moviesViewModel = new MoviesViewModel(new MovieRepository());
         public MainWindow()
         {
-            InitializeComponent();
             DataContext = moviesViewModel;
-
-            SetMovieOverviewtb();
+            //entries = new ObservableCollection<Movie>();
+            InitializeComponent();
         }
 
-        private void AddMovie_Click(object sender, RoutedEventArgs e)
+
+        private void btSave_Click(object sender, RoutedEventArgs e)
         {
             moviesViewModel.AddMovie();
-            Title.Text = "";
-            Genre.Text = "";
-            Length.Text = "";
-
-            
+            tbTitle.Text = "";
+            tbGenre.Text = "";
+            tbLength.Text = "";
         }
 
-        public void SetMovieOverviewtb()
+        private void btDelete_Click(object sender, RoutedEventArgs e)
         {
-            moviesViewModel.SetMovieOverview();
+
         }
 
+        private void btCancel_Click(object sender, RoutedEventArgs e)
+        {
 
+        }
     }
 }
