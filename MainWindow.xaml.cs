@@ -46,7 +46,7 @@ namespace TheMoviesWPF
             moviesViewModel.RemoveMovie(movieToRemove);
         }
 
-        private void btCancel_Click(object sender, RoutedEventArgs e)
+        private void btUpdate_Click(object sender, RoutedEventArgs e)
         {
 
         }

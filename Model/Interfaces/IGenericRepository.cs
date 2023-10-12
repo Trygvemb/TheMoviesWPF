@@ -11,5 +11,6 @@ namespace TheMoviesWPF.Model.Interfaces
         IEnumerable<T> GetAll();
         void Add(T entity);
         void Remove(T entity);
+        void Update(T entity);
     }
 }

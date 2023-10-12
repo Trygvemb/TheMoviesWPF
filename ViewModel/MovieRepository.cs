@@ -49,7 +49,7 @@ namespace TheMoviesWPF.ViewModel
             using (SqlConnection con = new SqlConnection(ConnectionString))
             {
                 con.Open();
-                SqlCommand cmd = new SqlCommand("SELECT Id, Title, Genre, Length FROM tm_Movies", con);
+                SqlCommand cmd = new SqlCommand("sp_GetMovies", con);
                 using (SqlDataReader dr = cmd.ExecuteReader())
                 {
                     while (dr.Read())
@@ -72,15 +72,56 @@ namespace TheMoviesWPF.ViewModel
             using (SqlConnection con = new SqlConnection(ConnectionString))
             {
                 con.Open();
-                SqlCommand cmd = new SqlCommand("DELETE FROM tm_Movies WHERE Id = @Id", con);
+                SqlCommand cmd = new SqlCommand("sp_DeleteMovie @Id", con);
                 cmd.Parameters.Add("@Id", SqlDbType.NVarChar).Value = movie.Id;
                 cmd.ExecuteNonQuery();
             }
             movies.Remove(movie);
         }
 
+        public void Update(Movie movie)
+        {
+            using (SqlConnection con = new SqlConnection(ConnectionString))
+            {
+                con.Open();
+                SqlCommand cmd = new SqlCommand("sp_UpdateMovie @Id, @Title, @Genre, @Length");
 
+                cmd.Parameters.Add("@Id", SqlDbType.NVarChar).Value = movie.Id;
+                cmd.Parameters.Add("@Title", SqlDbType.NVarChar).Value = movie.Title;
+                cmd.Parameters.Add("@Genre", SqlDbType.NVarChar).Value = movie.Genre;
+                cmd.Parameters.Add("@Length", SqlDbType.Int).Value = movie.Length;
+                cmd.ExecuteNonQuery();
+            }
 
+            Movie existingMovie = movies.FirstOrDefault(m => m.Id == movie.Id);
+            if (existingMovie != null)
+            {
+                existingMovie.Title = movie.Title;
+                existingMovie.Genre = movie.Genre;
+                existingMovie.Length = movie.Length;
+            }
+        }
+
+        /*
+create proc sp_UpdateMovie
+@Id INT,
+@Title NVARCHAR(200),
+@Genre NVARCHAR(200),
+@Length INT
+as
+BEGIN
+    UPDATE tm_Movies
+    Set Title = @Title, Genre = @Genre, Length = @Length
+    WHERE Id = @Id;
+END
+
+CREATE proc sp_DeleteMovie
+@Id int
+AS
+BEGIN
+    DELETE from tm_Movies WHERE Id = @Id;
+END
+        */
 
     }
 }

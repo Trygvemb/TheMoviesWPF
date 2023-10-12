@@ -19,9 +19,9 @@
                     <TextBox x:Name="tbLength" Text="{Binding Length}" FontSize="15"  BorderThickness="1" VerticalAlignment="Center"></TextBox>
                 </StackPanel>
                 <DockPanel Height="50" Margin="10">
-                    <Button x:Name="btAdd" DockPanel.Dock="Left" Background="Green" FontSize="20" Height="35" Width="100" Click="btAdd_Click">ADD</Button>
-                    <Button x:Name="btCancel" DockPanel.Dock="Right" Background="Red" FontSize="20" Height="35" Width="100" HorizontalAlignment="Right" Click="btCancel_Click">CLEAR</Button>
-                    <Button x:Name="btDelete" Background="Yellow" FontSize="20" Height="35" Content="DELETE" DockPanel.Dock="Right" Width="100" Click="btDelete_Click"/>
+                    <Button x:Name="btAdd" DockPanel.Dock="Left" Background="LightBlue" Foreground="green" FontWeight="Bold" FontSize="20" Height="35" Width="100" Click="btAdd_Click">ADD</Button>
+                    <Button x:Name="btUpdate" DockPanel.Dock="Right" Background="LightBlue" Foreground="DarkOrange" FontWeight="Bold" FontSize="20" Height="35" Width="100" HorizontalAlignment="Right" Click="btUpdate_Click">Update</Button>
+                    <Button x:Name="btDelete" Background="LightBlue" Foreground="red" FontWeight="Bold" FontSize="20" Height="35" Content="DELETE" DockPanel.Dock="Right" Width="100" Click="btDelete_Click"/>
                 </DockPanel>
                 <TextBlock Text="Movie Collection" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center"/>
                 <ListView Background="LightGray" Name="lvMovies" ItemsSource="{Binding Movies}">
