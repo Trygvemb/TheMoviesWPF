@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using TheMoviesWPF.Model;
 using TheMoviesWPF.ViewModel;
 
 namespace TheMoviesWPF
@@ -31,7 +32,7 @@ namespace TheMoviesWPF
         }
 
 
-        private void btSave_Click(object sender, RoutedEventArgs e)
+        private void btAdd_Click(object sender, RoutedEventArgs e)
         {
             moviesViewModel.AddMovie();
             tbTitle.Text = "";
@@ -41,7 +42,8 @@ namespace TheMoviesWPF
 
         private void btDelete_Click(object sender, RoutedEventArgs e)
         {
-
+            Movie movieToRemove = (Movie)lvMovies.SelectedItem;
+            moviesViewModel.RemoveMovie(movieToRemove);
         }
 
         private void btCancel_Click(object sender, RoutedEventArgs e)

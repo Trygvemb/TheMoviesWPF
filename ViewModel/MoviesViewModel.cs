@@ -44,6 +44,10 @@ namespace TheMoviesWPF.ViewModel
             Genre = string.Empty;
             Length = 0;
         }
+        public void RemoveMovie(Movie movie)
+        {
+            _movieRepository.Remove(movie);
+        }
 
     }
 }

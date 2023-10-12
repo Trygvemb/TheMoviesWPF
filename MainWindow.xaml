@@ -9,19 +9,21 @@
     <Grid Background="Black">
         <Grid Background="LightGray">
             <StackPanel Orientation="Vertical">
-
-                <TextBlock Text="ADD NEW MOVIE" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center"/>
-                <Border BorderBrush="Black" BorderThickness="1" Margin="0,0,0,10"/>
-                <TextBox x:Name="tbTitle" Text="{Binding Title}" FontSize="15"  BorderThickness="1" VerticalAlignment="Center"></TextBox>
-                <TextBox x:Name="tbGenre" Text="{Binding Genre}" FontSize="15"  BorderThickness="1" VerticalAlignment="Center"></TextBox>
-                <TextBox x:Name="tbLength" Text="{Binding Length}" FontSize="15"  BorderThickness="1" VerticalAlignment="Center"></TextBox>
+                <StackPanel Width="300">
+                    <TextBlock Text="ADD NEW MOVIE" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center"/>
+                    <TextBlock Text="Title"/>
+                    <TextBox x:Name="tbTitle" Text="{Binding Title}" FontSize="15"  BorderThickness="1" VerticalAlignment="Center"></TextBox>
+                    <TextBlock Text="Genre"/>
+                    <TextBox x:Name="tbGenre" Text="{Binding Genre}" FontSize="15"  BorderThickness="1" VerticalAlignment="Center"></TextBox>
+                    <TextBlock Text="Length in minutes"/>
+                    <TextBox x:Name="tbLength" Text="{Binding Length}" FontSize="15"  BorderThickness="1" VerticalAlignment="Center"></TextBox>
+                </StackPanel>
                 <DockPanel Height="50" Margin="10">
-                    <Button x:Name="btSave" DockPanel.Dock="Left" Background="Green" FontSize="20" Height="35" Width="100" Click="btSave_Click">ADD</Button>
+                    <Button x:Name="btAdd" DockPanel.Dock="Left" Background="Green" FontSize="20" Height="35" Width="100" Click="btAdd_Click">ADD</Button>
                     <Button x:Name="btCancel" DockPanel.Dock="Right" Background="Red" FontSize="20" Height="35" Width="100" HorizontalAlignment="Right" Click="btCancel_Click">CLEAR</Button>
                     <Button x:Name="btDelete" Background="Yellow" FontSize="20" Height="35" Content="DELETE" DockPanel.Dock="Right" Width="100" Click="btDelete_Click"/>
                 </DockPanel>
                 <TextBlock Text="Movie Collection" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center"/>
-                <Border BorderBrush="Black" BorderThickness="1" Margin="0,0,0,5"/>
                 <ListView Background="LightGray" Name="lvMovies" ItemsSource="{Binding Movies}">
                     <ListView.View>
                         <GridView>
@@ -31,7 +33,6 @@
                         </GridView>
                     </ListView.View>
                 </ListView>
-
             </StackPanel>
         </Grid>
     </Grid>
