@@ -14,6 +14,7 @@ namespace TheMoviesWPF.ViewModel
 {
     internal class MoviesViewModel : INotifyPropertyChanged
     {
+
         private readonly MovieRepository _movieRepository;
         private ObservableCollection<Movie> movies;
         private Movie selectedMovie;
@@ -68,6 +69,7 @@ namespace TheMoviesWPF.ViewModel
         {
             _movieRepository.Remove(movie);
         }
+
 
         public void UpdateMovie(Movie movie)
         {
