@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration.Json;
 using Microsoft.Extensions.Configuration;
 using System.Runtime.ConstrainedExecution;
 using System.Collections.ObjectModel;
+using System.Linq.Expressions;
 
 namespace TheMoviesWPF.ViewModel
 {
@@ -31,16 +32,36 @@ namespace TheMoviesWPF.ViewModel
             using (SqlConnection con = new SqlConnection(ConnectionString))
             {
                 con.Open();
-                SqlCommand cmd = new SqlCommand("exec sp_AddMovie @Title, @Genre, @Length", con);
+                SqlCommand cmd = new SqlCommand("sp_AddMovie @Title, @Genre, @Length", con);
 
                 cmd.Parameters.Add("@Title", SqlDbType.NVarChar).Value = movie.Title;
                 cmd.Parameters.Add("@Genre", SqlDbType.NVarChar).Value = movie.Genre;
                 cmd.Parameters.Add("@Length", SqlDbType.Int).Value = movie.Length;
                 movie.Id = Convert.ToInt32(cmd.ExecuteScalar());
+            }
+
+            // Find the newly generated Id from database and set it to the movie so movies collection has the correct id
+            using (SqlConnection con = new SqlConnection(ConnectionString))
+            {
+                int movieId = -1;
+                con.Open();
+                SqlCommand cmd = new SqlCommand("sp_FindMovieId", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.Add(new SqlParameter("@Title", SqlDbType.NVarChar, 200) { Value = movie.Title });
+                cmd.Parameters.Add(new SqlParameter("@Genre", SqlDbType.NVarChar, 200) { Value = movie.Genre });
+                cmd.Parameters.Add(new SqlParameter("@Length", SqlDbType.Int) { Value = movie.Length });
+
+                var result = cmd.ExecuteScalar();
+
+                if (result != null && result != DBNull.Value)
+                {
+                    movieId = Convert.ToInt32(result);
+                }
+                movie.Id = movieId;
 
                 movies.Add(movie);
             }
-
         }
 
         public IEnumerable<Movie> GetAll()
@@ -83,45 +104,28 @@ namespace TheMoviesWPF.ViewModel
         {
             using (SqlConnection con = new SqlConnection(ConnectionString))
             {
-                con.Open();
-                SqlCommand cmd = new SqlCommand("sp_UpdateMovie @Id, @Title, @Genre, @Length");
+                con.Open(); // Open the connection
 
-                cmd.Parameters.Add("@Id", SqlDbType.NVarChar).Value = movie.Id;
-                cmd.Parameters.Add("@Title", SqlDbType.NVarChar).Value = movie.Title;
-                cmd.Parameters.Add("@Genre", SqlDbType.NVarChar).Value = movie.Genre;
-                cmd.Parameters.Add("@Length", SqlDbType.Int).Value = movie.Length;
-                cmd.ExecuteNonQuery();
-            }
+                SqlCommand cmd = new SqlCommand("sp_UpdateMovie", con);
+                cmd.CommandType = CommandType.StoredProcedure;
 
-            Movie existingMovie = movies.FirstOrDefault(m => m.Id == movie.Id);
-            if (existingMovie != null)
-            {
-                existingMovie.Title = movie.Title;
-                existingMovie.Genre = movie.Genre;
-                existingMovie.Length = movie.Length;
+                cmd.Parameters.Add(new SqlParameter("@Id", SqlDbType.Int) { Value = movie.Id });
+                cmd.Parameters.Add(new SqlParameter("@Title", SqlDbType.NVarChar) { Value = movie.Title });
+                cmd.Parameters.Add(new SqlParameter("@Genre", SqlDbType.NVarChar) { Value = movie.Genre });
+                cmd.Parameters.Add(new SqlParameter("@Length", SqlDbType.Int) { Value = movie.Length });
+
+                cmd.ExecuteNonQuery(); // Execute the stored procedure
+
+                // Update the existing movie in the collection
+                Movie existingMovie = movies.FirstOrDefault(m => m.Id == movie.Id);
+                if (existingMovie != null)
+                {
+                    existingMovie.Title = movie.Title;
+                    existingMovie.Genre = movie.Genre;
+                    existingMovie.Length = movie.Length;
+                }
             }
         }
-
-        /*
-create proc sp_UpdateMovie
-@Id INT,
-@Title NVARCHAR(200),
-@Genre NVARCHAR(200),
-@Length INT
-as
-BEGIN
-    UPDATE tm_Movies
-    Set Title = @Title, Genre = @Genre, Length = @Length
-    WHERE Id = @Id;
-END
-
-CREATE proc sp_DeleteMovie
-@Id int
-AS
-BEGIN
-    DELETE from tm_Movies WHERE Id = @Id;
-END
-        */
 
     }
 }

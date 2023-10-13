@@ -31,10 +31,24 @@ namespace TheMoviesWPF
             InitializeComponent();
         }
 
+        private void lvMovies_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (lvMovies.SelectedItem != null)
+            {
+                moviesViewModel.SelectedMovie = (Movie)lvMovies.SelectedItem;
+            }
+        }
+
 
         private void btAdd_Click(object sender, RoutedEventArgs e)
         {
-            moviesViewModel.AddMovie();
+            
+            string title = tbTitle.Text.ToString();
+            string genre = tbGenre.Text.ToString();
+            int length;
+            int.TryParse(tbLength.Text, out length);
+            
+            moviesViewModel.AddMovie(title, genre, length);
             tbTitle.Text = "";
             tbGenre.Text = "";
             tbLength.Text = "";
@@ -44,11 +58,25 @@ namespace TheMoviesWPF
         {
             Movie movieToRemove = (Movie)lvMovies.SelectedItem;
             moviesViewModel.RemoveMovie(movieToRemove);
+            tbTitle.Text = "";
+            tbGenre.Text = "";
+            tbLength.Text = "";
         }
 
         private void btUpdate_Click(object sender, RoutedEventArgs e)
         {
+            Movie movieToUpdate = (Movie)lvMovies.SelectedItem;
+            moviesViewModel.UpdateMovie(movieToUpdate);
+            tbTitle.Text = "";
+            tbGenre.Text = "";
+            tbLength.Text = "";
+        }
 
+        private void ClearInput_Click(object sender, RoutedEventArgs e)
+        {
+            tbTitle.Text = "";
+            tbGenre.Text = "";
+            tbLength.Text = "";
         }
     }
 }
