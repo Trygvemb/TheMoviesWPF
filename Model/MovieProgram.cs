@@ -10,10 +10,10 @@ namespace TheMoviesWPF.Model
     {
         public int Id { get; set; }
         public string MovieDirector { get; set; }
-        public Movie Movie { get; }
+        public Movie Movie { get; set; }
         public DateTime ShowTimes { get; set; }
         public DateTime PremierDate { get; set; }
-        public Cinema Cinema { get; }
+        public Cinema Cinema { get; set; }
 
         public MovieProgram(Movie movie, DateTime showTimes, string movieDirector, DateTime premierDate, Cinema cinema)
         {
