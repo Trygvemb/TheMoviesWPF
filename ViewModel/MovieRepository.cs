@@ -12,14 +12,17 @@ using Microsoft.Extensions.Configuration;
 using System.Runtime.ConstrainedExecution;
 using System.Collections.ObjectModel;
 using System.Linq.Expressions;
+using System.Windows.Input;
 
 namespace TheMoviesWPF.ViewModel
 {
-    internal class MovieRepository : IMovieRepository
+    public class MovieRepository : IMovieRepository
     {
         private readonly string ConnectionString;
 
         public ObservableCollection<Movie> movies = new ObservableCollection<Movie>();
+        private Movie movie;
+
         public MovieRepository()
         {
             IConfigurationRoot config = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
@@ -28,7 +31,7 @@ namespace TheMoviesWPF.ViewModel
 
         }
         public void Add(Movie movie)
-        {
+        { 
             using (SqlConnection con = new SqlConnection(ConnectionString))
             {
                 con.Open();
@@ -41,6 +44,14 @@ namespace TheMoviesWPF.ViewModel
             }
 
             // Find the newly generated Id from database and set it to the movie so movies collection has the correct id
+            int movieId = GetMovieId(movie);
+            movie.Id = movieId;
+
+            movies.Add(movie);
+        }
+
+        public int GetMovieId(Movie movie)
+        {
             using (SqlConnection con = new SqlConnection(ConnectionString))
             {
                 int movieId = -1;
@@ -58,9 +69,8 @@ namespace TheMoviesWPF.ViewModel
                 {
                     movieId = Convert.ToInt32(result);
                 }
-                movie.Id = movieId;
-
-                movies.Add(movie);
+                return movieId;
+                
             }
         }
 
@@ -87,6 +97,34 @@ namespace TheMoviesWPF.ViewModel
             }
             return movies;
         }
+
+        public Movie GetById(int id)
+        {
+            Movie movie = null; // Initialize the movie object outside the using block
+
+            using (SqlConnection con = new SqlConnection(ConnectionString))
+            {
+                con.Open();
+                SqlCommand cmd = new SqlCommand("SELECT * FROM tm_Movies WHERE Id = @Id", con);
+                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = id; // Use SqlDbType.Int for integer values
+
+                using (SqlDataReader dr = cmd.ExecuteReader())
+                {
+                    if (dr.Read()) // Use if instead of while for a single record
+                    {
+                        movie = new Movie(
+                            dr["Title"].ToString(),
+                            dr["Genre"].ToString(),
+                            int.Parse(dr["Length"].ToString())
+                        );
+                        movie.Id = id; // Set the Id from the parameter
+                    }
+                }
+            }
+
+            return movie; // Return the retrieved movie (or null if not found)
+        }
+
 
         public void Remove(Movie movie)
         {
