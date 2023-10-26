@@ -100,29 +100,29 @@ namespace TheMoviesWPF.ViewModel
 
         public Movie GetById(int id)
         {
-            Movie movie = null; // Initialize the movie object outside the using block
+            Movie movie = null;
 
             using (SqlConnection con = new SqlConnection(ConnectionString))
             {
                 con.Open();
                 SqlCommand cmd = new SqlCommand("SELECT * FROM tm_Movies WHERE Id = @Id", con);
-                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = id; // Use SqlDbType.Int for integer values
+                cmd.Parameters.Add("@Id", SqlDbType.Int).Value = id;
 
                 using (SqlDataReader dr = cmd.ExecuteReader())
                 {
-                    if (dr.Read()) // Use if instead of while for a single record
+                    if (dr.Read())
                     {
                         movie = new Movie(
                             dr["Title"].ToString(),
                             dr["Genre"].ToString(),
                             int.Parse(dr["Length"].ToString())
                         );
-                        movie.Id = id; // Set the Id from the parameter
+                        movie.Id = id;
                     }
                 }
             }
 
-            return movie; // Return the retrieved movie (or null if not found)
+            return movie;
         }
 
 
